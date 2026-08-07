@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,19 +7,19 @@
     <style>
         body {
             text-align: center;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
         canvas {
             border: 2px solid black;
-            cursor: crosshair;
+            cursor: crosshair; 
         }
     </style>
 </head>
 <body>
     <h1>Mini Paint</h1>
-    <input type="color" id="cor">
+    <input type="color" id="cor"> 
     <button id="limpar">Limpar</button>
-    <button id="Exportar">Exportar</button>
+    <button id="exportar">Exportar</button>
     <br>
     <br>
     <canvas id="tela" width="600" height="400"></canvas>
@@ -28,31 +28,43 @@
         const tela = document.getElementById("tela");
         const ctx = tela.getContext("2d");
 
+
         let desenhando = false;
 
-        tela.onmousedown = () =>{ 
+        tela.onmousedown = () => {
             desenhando = true;
             ctx.beginPath();
         }
-        
         tela.onmouseup = () => desenhando = false;
 
         tela.onmousemove = e => {
             if (!desenhando) return;
-
             ctx.strokeStyle = cor.value;
-            ctx.lineTo(e.offsetX, e.offsetY); 
+            ctx.lineTo(e.offsetX, e.offsetY);
             ctx.stroke();
+        };
 
-        }
-
-        tela.onmouseleave = () =>{
+        tela.onmouseleave = () => {
             desenhando = false;
             ctx.beginPath();
         }
 
-        limpar.onclick = () => 
+        limpar.onclick = () =>
             ctx.clearRect(0, 0, tela.width, tela.height);
+            
+            ctx.fillStyle = "white"; 
+            ctx.fillRect(0, 0, tela.width, tela.height);
+
+
+        function baixarCanvas() {
+            const link = document.createElement("a");
+            link.download = "minipaint.png";
+            link.href = tela.toDataURL("image/png");
+            link.click();
+        }
+
+        document.getElementById("exportar").onclick = baixarCanvas;
+
         
     </script>
 </body>
